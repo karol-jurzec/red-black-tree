@@ -40,6 +40,7 @@ czerwono-czarne to posiada następujące własności:
 _Rys.1 Drzewo BST – perfekcyjnie
 zbalansowane_
 
+![niezbalansowane](https://user-images.githubusercontent.com/85733696/180977054-6c00bef5-7cd1-4749-a200-1dc32063a0bf.PNG)
 
 _Rys.2 Drzewo BST - niezbalansowane_
 
