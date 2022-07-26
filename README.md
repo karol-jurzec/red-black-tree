@@ -270,18 +270,19 @@ natrafimy na szukany klucz lub wartownik (T.nil).
 ```
 ```
 k → szukany klucz
-```
+
 TREE_SEARCH(k)
 x = T.root
-**while** x!=T.nil i x.key != k
-**if** k<x.key
+while x!=T.nil i x.key != k
+if k<x.key
 x=x.left
-**else**
+else
 x=x.right
-**if** x == T.nil
+if x == T.nil
 return NULL
-**else**
+else
 return x
+```
 
 
 ```
