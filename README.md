@@ -34,11 +34,14 @@ czerwono-czarne to posiada następujące własności:
 - Jeśli węzeł jest czerwony, to obaj jego synowie muszą być czarni.
 - Każda ścieżka prost z ustalonego węzła do liścia ma tyle samo czarnych węzłów.
 
-```
-Rys.2 Drzewo BST - niezbalansowane
-```
+
+![perfekcyjnie-zbalansowane](https://user-images.githubusercontent.com/85733696/180976157-603dc92c-6af7-408c-bda1-a72654f23a55.PNG)
+
 _Rys.1 Drzewo BST – perfekcyjnie
 zbalansowane_
+
+
+_Rys.2 Drzewo BST - niezbalansowane_
 
 
 ## ROTACJE:
