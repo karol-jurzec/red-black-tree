@@ -294,39 +294,3 @@ else
 ```
 Algorytm zwraca wartość NULL jeśli szukany element nie istnieje.
 ```
-Program posiada opcje dodawania, usuwania i wyszukiwania węzła o podanym kluczu.
-
-1. Uruchamiamy program i dodajemy węzeł o kluczu 4:
-
-Na schemacie drzewa czerwono czarnego możemy zauważyć dodany korzeń o numerze 4
-oraz NILL symbolizujący wartownika T.nil.
-
-2. Dodajemy kolejny węzeł o kluczu 6.
-
-Ponieważ 6 > 4 to węzeł o kluczu o numerze 6 został dodany po prawej stronie korzenia.
-
-
-3. Dodajemy węzeł o numerze 8.
-
-Z powodu tego, że po dodaniu 8 drzewo nie spełniało warunków drzewa czerwonego
-zostało przebudowane.
-
-4. Dodajemy kolejno 3, 7, 10, 9, 1, 11
-
-
-5. Usuwamy węzeł o numerze 11.
-6. Usuwamy węzeł o numerze 10.
-
-
-7. Usuwamy element u numerze 6.
-    8. Usuwamy element o numerze 3.
-
-
-9. Wyszukujemy element o numerze 1.
-
-10.Wyszukujemy element u numerze 8.
-
-
-11. Wyszukujemy element, którego nie ma w drzewie.
-
-
