@@ -68,19 +68,19 @@ równy T.nil,
 
 ```
 if x.right != T.nil
-y = x.right
-x.right = y.left
-else y.left != T.nil
-y.left.p = x
-y.p = x.p
-if x.p == T.nil
-T.root = y
-elseif x == x.p.left
-x.p.left = y
-else
-x.p.right = y
-y.left = x
-x.p = y
+    y = x.right
+    x.right = y.left
+    else y.left != T.nil
+        y.left.p = x
+    y.p = x.p
+    if x.p == T.nil
+        T.root = y
+    elseif x == x.p.left
+        x.p.left = y
+    else
+        x.p.right = y
+    y.left = x
+    x.p = y
 ```
 
 ### RIGHT_ROTATE(x)
@@ -89,14 +89,14 @@ x.p = y
 y = x.left
 x.left = y.right
 if y.right != T.nil
-y.right.p = x
+    y.right.p = x
 y.p = x.p
 if y.p == T.nil
-T.root = y
+    T.root = y
 elseif x == x.p.left
-x.p.left = y
+    x.p.left = y
 else
-x.p.right = y
+    x.p.right = y
 y.right = x
 x.p = y
 ```
@@ -116,24 +116,25 @@ rotacje na węzłach aby zachować właściwości drzewa czerwono-czarnego:
 ```
 RED_BLACK_INSERT_FIXUP(z)
 while z.p.color == RED
-if z.p == z.p.p.left
-if z.p.p.right.color == RED
-z.p.color = BLACK
-z.p.p.right.color = BLACK
-z.p.p.color = RED
-z = z.p.p
+    if z.p == z.p.p.left
+        if z.p.p.right.color == RED
+        z.p.color = BLACK
+        z.p.p.right.color = BLACK
+        z.p.p.color = RED
+        z = z.p.p
+    else
+        if z == z.p.right
+               z = z.p
+               LEFT_ROTATE(z)
+        z.p.color = BLACK
+        z.p.p.color = RED
+        RIGHT_ROTATE(z.p.p)
 else
-if z == z.p.right
-z = z.p
-LEFT_ROTATE(z)
-z.p.color = BLACK
-z.p.p.color = RED
-RIGHT_ROTATE(z.p.p)
-else
-(to samo co po pierwszym if z zamienionymi wskaźnikami right i left)
+    (to samo co po pierwszym if z zamienionymi wskaźnikami right i left)
 T.root.color = BLACK
 ```
 
+```
 RED_BLACK_INSEERT(key)
 z.key = key
 z.color = RED
@@ -142,20 +143,21 @@ z.right = T.nil
 x = T.root
 y = T.nil
 
-**while** x != T.nil
-y = x
-**if** z.key < x.key
-x = x.left
-**else**
-x = x.right
-**if** y == T.nil
-T.root = z
-**elseif** z.key < y.key
-y.left = z
-**else**
-y.right = z
+while x != T.nil
+    y = x
+    if z.key < x.key
+        x = x.left
+    else
+        x = x.right
+if y == T.nil
+    T.root = z
+elseif z.key < y.key
+    y.left = z
+else
+    y.right = z
 z.p = y
 RED_BLACK_INSERT_FIXUP(z)
+```
 
 ## USUWANIE:
 
@@ -164,22 +166,26 @@ nuje się w czasie O(lgn). Przy usuwaniu elementów w drzewie użyjemy funkcji
 RED_BLACK_TRANSPLANT(u,v), która wstawia jedno poddrzewo w miejsce
 drugiego w jego ojcu.
 
+```
 RED_BLACK_TRANSPLANT(u, v)
-**if** u.p == T.nil
-T.root = v
-**elseif** u == u.p.left
-u.p.left = v
-**else**
-u.p.right = v
+if u.p == T.nil
+    T.root = v
+elseif u == u.p.left
+    u.p.left = v
+else
+    u.p.right = v
 v.p = u.p
+```
 
 Do usuwania użyjemy również funkcje TREE_MINIMUM(x), która
 wyznacza wskaźnik do ostatniego elementu poddrzewa x.
 
+```
 TREE_MINIMUM(x)
-**while** x.left != T.nill
-x = x.left
+while x.left != T.nill
+    x = x.left
 return x
+```
 
 
 Podczas wykonywania procedury RED_BLACK_DELETE(z), musimy
@@ -190,31 +196,33 @@ drzewie. Podobnie jak w przypadku wstawiania po usunięciu węzła wywoływana j
 procedura RED_BLACK_DELETE_FIXUP(x), która przywraca własności drzewa
 czerwono-czarnego.
 
+```
 RED_BLACK_DELETE(z)
 y = z
 yOriginalColor = y.color
-**if** z.left == T.nil
-x = z.right
-RED_BLACK_TRANSPLANT(z, z.right)
-**elseif** z.right ==T.nil
-x = z.left
-RED_BLACK_TRANSPLANT(z, z.left)
-**else**
-y = TREE_MINIMUM(z.right)
-yOriginalColor = y.color
-x = y.right
-**if** y.p == z
-x.p = y
-**else**
-RED_BLACK_TRANSPLANT(y, y.right)
-y.right = z.right
-y.right.p = y
-RED_BLACK_TRANSPLANT(z, y)
-y.left = z.left
-y.left.p = y
-y.color = z.color
-**if** yOriginalColor == BLACK
-RED_BLACK_DELETE_FIXUP(x)
+if z.left == T.nil
+    x = z.right
+    RED_BLACK_TRANSPLANT(z, z.right)
+elseif z.right ==T.nil
+    x = z.left
+    RED_BLACK_TRANSPLANT(z, z.left)
+else
+    y = TREE_MINIMUM(z.right)
+    yOriginalColor = y.color
+    x = y.right
+    if y.p == z
+        x.p = y
+    else
+        RED_BLACK_TRANSPLANT(y, y.right)
+        y.right = z.right
+        y.right.p = y
+    RED_BLACK_TRANSPLANT(z, y)
+    y.left = z.left
+    y.left.p = y
+    y.color = z.color
+if yOriginalColor == BLACK
+    RED_BLACK_DELETE_FIXUP(x)
+```
 
 Gdy usuwany węzeł był koloru czerwonego to po jego usunięciu własności
 drzewa nadal są zachowane. Jeśli natomiast był czarne to rozważane są 4 przypadki:
@@ -228,37 +236,31 @@ drzewa nadal są zachowane. Jeśli natomiast był czarne to rozważane są 4 prz
 ```
 RED_BLACK_DELETE_FIXUP(x)
 while x != T.root i x.color == BLACK
-if x == x.p.left
-w = x.p.right
-if w.color == RED
-w.color = BLACK //PRZYPADEK 1
-x.p.color = RED //PRZYPADEK 1
-```
-### LEFT_ROTATE(x.p) //PRZYPADEK 1
-
-```
-w = x.p.right //PRZYPADEK 1
-if x != T.nil i w.left.color == BLACK i w.right.color == BLACK
-w.color = RED //PRZYPADEK 2
-x.p.color = BLACK //PRZYPADEK 2
-x = x.p //PRZYPADEK 2
-else
-if x != T.nil i w.right.color == BLACK
-w.color = RED //PRZYPADEK 3
-w.left.color = BLACK //PRZYPADEK 3
-```
-### RIGHT_ROTATE(w) //PRZYPADEK 3
-
-```
-w = x.p.right //PRZYPADEK 3
-if x != T.nil
-w.color = x.p.color //PRZYPADEK 4
-x.p.color = BLACK //PRZYPADEK 4
-x.right.color = BLACK //PRZYPADEK 4
-LEFT_ROTATE(x.p) //PRZYPADEK 4
-x = T.root //PRZYPADEK 4
-else
-(to samo co po pierwszym if z zamienionymi wskaźnikami right i left)
+    if x == x.p.left
+        w = x.p.right
+        if w.color == RED
+            w.color = BLACK //PRZYPADEK 1
+            x.p.color = RED //PRZYPADEK 1
+            LEFT_ROTATE(x.p) //PRZYPADEK 1
+            w = x.p.right //PRZYPADEK 1
+        if x != T.nil i w.left.color == BLACK i w.right.color == BLACK
+            w.color = RED //PRZYPADEK 2
+            x.p.color = BLACK //PRZYPADEK 2
+            x = x.p //PRZYPADEK 2
+        else
+            if x != T.nil i w.right.color == BLACK
+                w.color = RED //PRZYPADEK 3
+                w.left.color = BLACK //PRZYPADEK 3
+                RIGHT_ROTATE(w) //PRZYPADEK 3
+                w = x.p.right //PRZYPADEK 3
+            if x != T.nil
+                    w.color = x.p.color //PRZYPADEK 4
+                    x.p.color = BLACK //PRZYPADEK 4
+                    x.right.color = BLACK //PRZYPADEK 4
+            LEFT_ROTATE(x.p) //PRZYPADEK 4
+            x = T.root //PRZYPADEK 4
+    else
+        (to samo co po pierwszym if z zamienionymi wskaźnikami right i left)
 x.color = BLACK
 ```
 ## WYSZUKIWANIE:
@@ -274,14 +276,14 @@ k → szukany klucz
 TREE_SEARCH(k)
 x = T.root
 while x!=T.nil i x.key != k
-if k<x.key
-x=x.left
-else
-x=x.right
+    if k<x.key
+        x=x.left
+    else
+        x=x.right
 if x == T.nil
-return NULL
+    return NULL
 else
-return x
+    return x
 ```
 
 
