@@ -2,17 +2,17 @@
 
 ```
 Główny problem drzew wyszukiwań binarnych jest taki, że mogą w bardzo
-prosty sposób stać się mocno niezbalansowane, a w związku z tym czas operacji
+prosty sposób stać się mocno niezbalansowane a w związku z tym czas operacji
 na takim drzewie zwiększa się. Na przykład gdy w korzeniu drzewa umieścimy
-1 i następnie będziemy do niego dodawać elementy większe od 1, to prawa
-strona będzie posiadać wszystkie dodane elementy, lewa będzie pusta, a koszt
+1 i będziemy do niego dodawać elementy większe od 1 to prawa
+strona będzie posiadać wszystkie dodane elementy, lewa będzie pusta a koszt
 operacji na takim drzewie mogą być nawet tak duże jak w przypadku list.
 ```
 ```
 Rozwiązaniem tego problemu są drzewa czarno-czerwone oraz drzewa
-AVL, dzięki którym drzewa przy pomocy odpowiednich algorytmów są w miarę
+AVL dzięki którym drzewa przy pomocy odpowiednich algorytmów są w miarę
 zbalansowane. Różnica pomiędzy wymienionymi drzewami jest taka, że w
-przypadku drzewa AVL wykonuje się więcej zamian niż w drzewie czarno-
+przypadku drzewa AVL wykonuje się więcej swapów niż w drzewie czarno-
 czerwonym, natomiast drzewo AVL jest nieco lepiej zbalansowane.
 ```
 - Drzewa czerwono-czarne – mniej zamian, szybsze dodawanie, usuwanie węzłów.
@@ -24,7 +24,7 @@ rodzaju strukturach danych, bazach danych, aplikacjach w których ważne jest
 szybkie wyszukiwanie oraz w niektórych implementacjach C++.
 ```
 ```
-Drzewo czarno czerwone jest drzewem wyszukiwań binarnych, w
+Drzewo czarno czerwone jest drzewem wyszukiwań binarnych w
 którym każdy węzeł jest koloru czarnego lub czerwonego. Jeśli drzewo jest
 czerwono-czarne to posiada następujące własności:
 ```
