@@ -272,7 +272,7 @@ x.color = BLACK
 ```
 Operacje wyszukiwania w drzewie binarnym rozpoczynamy od korzenia,
 kolejno porównując klucze i zagłębiając się w odpowiednie poddrzewo dopóki nie
-natrafimy na szukany klucz lub wartownik (T.nil).
+trafimy na szukany klucz lub wartownik (T.nil).
 ```
 ```
 k → szukany klucz
