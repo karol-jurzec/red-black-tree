@@ -1,80 +1,63 @@
-# Drzewa czerwono-czarne
+# Red-Black Trees
 
-```
-Główny problem drzew wyszukiwań binarnych jest taki, że mogą w bardzo
-prosty sposób stać się mocno niezbalansowane a w związku z tym czas operacji
-na takim drzewie zwiększa się. Na przykład gdy w korzeniu drzewa umieścimy
-1 i będziemy do niego dodawać elementy większe od 1 to prawa
-strona będzie posiadać wszystkie dodane elementy, lewa będzie pusta a koszt
-operacji na takim drzewie mogą być nawet tak duże jak w przypadku list.
-```
-```
-Rozwiązaniem tego problemu są drzewa czarno-czerwone oraz drzewa
-AVL dzięki którym drzewa przy pomocy odpowiednich algorytmów są w miarę
-zbalansowane. Różnica pomiędzy wymienionymi drzewami jest taka, że w
-przypadku drzewa AVL wykonuje się więcej swapów niż w drzewie czarno-
-czerwonym, natomiast drzewo AVL jest nieco lepiej zbalansowane.
-```
-- Drzewa czerwono-czarne – mniej zamian, szybsze dodawanie, usuwanie węzłów.
-- Drzewo AVL – lepiej zbalansowane drzewa, szybsze wyszukiwanie.
+Binary Search Trees (BSTs) can easily become highly unbalanced, causing operations such as search, insertion, and deletion to degrade in performance — potentially reaching the same cost as linear operations on a list.
 
-```
-Zastosowanie drzew czerwono-czarnych możemy znaleźć w różnego
-rodzaju strukturach danych, bazach danych, aplikacjach w których ważne jest
-szybkie wyszukiwanie oraz w niektórych implementacjach C++.
-```
-```
-Drzewo czarno czerwone jest drzewem wyszukiwań binarnych w
-którym każdy węzeł jest koloru czarnego lub czerwonego. Jeśli drzewo jest
-czerwono-czarne to posiada następujące własności:
-```
-- Każdy węzeł jest czerwony, albo czarny.
-- Korzeń drzewa jest czarny.
-- Każdy liść jest czarny.
-- Jeśli węzeł jest czerwony, to obaj jego synowie muszą być czarni.
-- Każda ścieżka prost z ustalonego węzła do liścia ma tyle samo czarnych węzłów.
+For example, if the root node contains the value 1 and all subsequent elements inserted are greater than 1, the right subtree will contain all elements, while the left subtree remains empty. This results in a degenerated tree, behaving like a linked list.
 
+---
 
-![perfekcyjnie-zbalansowane](https://user-images.githubusercontent.com/85733696/180976157-603dc92c-6af7-408c-bda1-a72654f23a55.PNG)
+## Red-Black Trees vs AVL Trees
 
-_Rys.1 Drzewo BST – perfekcyjnie
-zbalansowane_
+A solution to this problem is to use self-balancing trees, such as Red-Black Trees and AVL Trees, which apply specific algorithms to maintain balance after insertions and deletions.
 
-![niezbalansowane](https://user-images.githubusercontent.com/85733696/180977054-6c00bef5-7cd1-4749-a200-1dc32063a0bf.PNG)
+- **Red-Black Trees** – fewer rotations, faster insertions and deletions.  
+- **AVL Trees** – more rotations but slightly better balance and faster lookups.
 
-_Rys.2 Drzewo BST - niezbalansowane_
+### Red-Black Trees are used in:
+- Various data structures and databases  
+- Applications requiring fast lookup  
+- C++ STL implementations (e.g., `std::map`, `std::set`)
 
+---
 
-## ROTACJE:
+## Properties of Red-Black Trees
 
-```
-Ponieważ operacje dodawania i usuwania węzłów z drzewa mogą
-sprawić, że drzewo nie będzie spełniało warunków drzewa czerwono-czarnego,
-dlatego aby spełniało odpowiednie warunki stosujemy algorytmy rotacji, w
-algorytmach użyjemy wartownika do którego będą prowadziły wszystkie wskaźniki
-węzłów nie mających prawego bądź lewego syna oraz rodzicem korzenia drzewa
-będzie również wartownik:
-```
-- LEFT_ROTATE(x) → rotacja na drzewie względem węzła x
-- RIGHT_ROTATE(x)
-- T.nil – wartownik
-- T.root – korzeń drzewa
-- x – węzeł drzewa
-- x.right – prawe poddrzewo węzła
-- x.left – lewe poddrzewo węzła
-- x.p – rodzic węzła
+A Red-Black Tree is a binary search tree (BST) where each node is either red or black, and the following properties must hold:
 
-```
-Lewą rotację na węźle wykonujemy wtedy gdy jego prawy syn nie jest
-równy T.nil,
-```
+1. Every node is either red or black.  
+2. The root is always black.  
+3. Every leaf (NIL) is black.  
+4. If a node is red, both its children are black.  
+5. Every path from a node to its descendant NIL nodes contains the same number of black nodes.
+
+---
+
+## Example: Balanced vs Unbalanced BST
+
+- Perfectly balanced BST  
+- Unbalanced BST  
+
+---
+
+## Rotations
+
+Insertion and deletion can violate Red-Black Tree properties. To restore them, tree rotations are used.
+
+All missing child pointers and the root’s parent point to a special sentinel node `T.nil`.
+
+### Definitions
+- `LEFT_ROTATE(x)` – rotate the subtree around node x to the left  
+- `RIGHT_ROTATE(x)` – rotate the subtree around node x to the right  
+- `T.nil` – sentinel node  
+- `T.root` – root of the tree  
+- `x.left`, `x.right`, `x.p` – left child, right child, parent
+
 ### LEFT_ROTATE(x)
-
 ```
 if x.right != T.nil
     y = x.right
     x.right = y.left
-    else y.left != T.nil
+    if y.left != T.nil
         y.left.p = x
     y.p = x.p
     if x.p == T.nil
@@ -88,7 +71,6 @@ if x.right != T.nil
 ```
 
 ### RIGHT_ROTATE(x)
-
 ```
 y = x.left
 x.left = y.right
@@ -104,48 +86,48 @@ else
 y.right = x
 x.p = y
 ```
-## WSTAWIANIE:
 
-```
-Wstawianie nowego węzła do drzewa czerwono czarnego o n węzłach
-można wykonać w czasie O(lgn), wstawianie wykonuje się podobnie jak w przypadku
-drzewa wyszukiwań binarnych. Na końcu wywołujemy funkcje, która koloruje i wykonuje
-rotacje na węzłach aby zachować właściwości drzewa czerwono-czarnego:
-```
-- RED_BLACK_INSEERT(key) → Wstawia węzeł o podanym kluczu key
-- RED_BLACK_INSERT_FIXUP(z) → Przywraca własności czerwonego drzewa, z
-    to nowo powstały węzeł.
-- z.key → miejsce do przechowywania klucza/danych w węźle
+---
 
+## Insertion
+
+Insertion into a Red-Black Tree with n nodes takes **O(log n)** time.
+
+The insertion process is similar to that in a BST, followed by a fix-up procedure to restore the Red-Black properties.
+
+### Main Functions
+- `RED_BLACK_INSERT(key)` – inserts a node with key `key`  
+- `RED_BLACK_INSERT_FIXUP(z)` – restores Red-Black properties after insertion
+
+### RED_BLACK_INSERT_FIXUP(z)
 ```
-RED_BLACK_INSERT_FIXUP(z)
 while z.p.color == RED
     if z.p == z.p.p.left
         if z.p.p.right.color == RED
-        z.p.color = BLACK
-        z.p.p.right.color = BLACK
-        z.p.p.color = RED
-        z = z.p.p
+            z.p.color = BLACK
+            z.p.p.right.color = BLACK
+            z.p.p.color = RED
+            z = z.p.p
+        else
+            if z == z.p.right
+                z = z.p
+                LEFT_ROTATE(z)
+            z.p.color = BLACK
+            z.p.p.color = RED
+            RIGHT_ROTATE(z.p.p)
     else
-        if z == z.p.right
-               z = z.p
-               LEFT_ROTATE(z)
-        z.p.color = BLACK
-        z.p.p.color = RED
-        RIGHT_ROTATE(z.p.p)
-else
-    (to samo co po pierwszym if z zamienionymi wskaźnikami right i left)
+        (same as above, with "right" and "left" swapped)
 T.root.color = BLACK
 ```
 
+### RED_BLACK_INSERT(key)
 ```
-RED_BLACK_INSEERT(key)
 z.key = key
 z.color = RED
 z.left = T.nil
 z.right = T.nil
-x = T.root
 y = T.nil
+x = T.root
 
 while x != T.nil
     y = x
@@ -153,6 +135,7 @@ while x != T.nil
         x = x.left
     else
         x = x.right
+
 if y == T.nil
     T.root = z
 elseif z.key < y.key
@@ -163,15 +146,16 @@ z.p = y
 RED_BLACK_INSERT_FIXUP(z)
 ```
 
-## USUWANIE:
+---
 
-Podobnie jak dodawanie elementów operacja usuwania również wyko-
-nuje się w czasie O(lgn). Przy usuwaniu elementów w drzewie użyjemy funkcji
-RED_BLACK_TRANSPLANT(u,v), która wstawia jedno poddrzewo w miejsce
-drugiego w jego ojcu.
+## Deletion
 
+Deletion, like insertion, also runs in **O(log n)** time.
+
+It uses a helper procedure `RED_BLACK_TRANSPLANT(u, v)` to replace one subtree with another.
+
+### RED_BLACK_TRANSPLANT(u, v)
 ```
-RED_BLACK_TRANSPLANT(u, v)
 if u.p == T.nil
     T.root = v
 elseif u == u.p.left
@@ -181,33 +165,21 @@ else
 v.p = u.p
 ```
 
-Do usuwania użyjemy również funkcje TREE_MINIMUM(x), która
-wyznacza wskaźnik do ostatniego elementu poddrzewa x.
-
+### TREE_MINIMUM(x)
 ```
-TREE_MINIMUM(x)
-while x.left != T.nill
+while x.left != T.nil
     x = x.left
 return x
 ```
 
-
-Podczas wykonywania procedury RED_BLACK_DELETE(z), musimy
-pamiętać, że gdy chcemy usunąć węzeł **z** mający mniej niż dwóch synów to z jest
-usuwany z drzewa i chcemy, żeby węzłem **y** był **z**. Kiedy natomiast z ma dwóch
-synów to węzłem **y** powinien zostać następnik **z** a **y** przemieszcza się na pozycje **z** w
-drzewie. Podobnie jak w przypadku wstawiania po usunięciu węzła wywoływana jest
-procedura RED_BLACK_DELETE_FIXUP(x), która przywraca własności drzewa
-czerwono-czarnego.
-
+### RED_BLACK_DELETE(z)
 ```
-RED_BLACK_DELETE(z)
 y = z
 yOriginalColor = y.color
 if z.left == T.nil
     x = z.right
     RED_BLACK_TRANSPLANT(z, z.right)
-elseif z.right ==T.nil
+elseif z.right == T.nil
     x = z.left
     RED_BLACK_TRANSPLANT(z, z.left)
 else
@@ -228,69 +200,64 @@ if yOriginalColor == BLACK
     RED_BLACK_DELETE_FIXUP(x)
 ```
 
-Gdy usuwany węzeł był koloru czerwonego to po jego usunięciu własności
-drzewa nadal są zachowane. Jeśli natomiast był czarne to rozważane są 4 przypadki:
+---
 
-- w (brat usuniętego węzła) jest czerwony
-- w jest czarny i prawe i lewe dziecko jest czarne
-- w jest czarny, prawe dziecko jest czarne i lewe czerwone
-- w jest czarne, prawe dziecko czerwone i lewe czarne
+### Cases in RED_BLACK_DELETE_FIXUP(x)
+If the deleted node was red, no properties are violated.  
+If it was black, there are four cases to handle:
 
+1. **w (sibling) is red**  
+2. **w is black, and both children of w are black**  
+3. **w is black, right child is black, left child is red**  
+4. **w is black, right child is red**
 
+### RED_BLACK_DELETE_FIXUP(x)
 ```
-RED_BLACK_DELETE_FIXUP(x)
-while x != T.root i x.color == BLACK
+while x != T.root and x.color == BLACK
     if x == x.p.left
         w = x.p.right
         if w.color == RED
-            w.color = BLACK //PRZYPADEK 1
-            x.p.color = RED //PRZYPADEK 1
-            LEFT_ROTATE(x.p) //PRZYPADEK 1
-            w = x.p.right //PRZYPADEK 1
-        if x != T.nil i w.left.color == BLACK i w.right.color == BLACK
-            w.color = RED //PRZYPADEK 2
-            x.p.color = BLACK //PRZYPADEK 2
-            x = x.p //PRZYPADEK 2
+            w.color = BLACK       // Case 1
+            x.p.color = RED       // Case 1
+            LEFT_ROTATE(x.p)      // Case 1
+            w = x.p.right
+        if w.left.color == BLACK and w.right.color == BLACK
+            w.color = RED         // Case 2
+            x = x.p
         else
-            if x != T.nil i w.right.color == BLACK
-                w.color = RED //PRZYPADEK 3
-                w.left.color = BLACK //PRZYPADEK 3
-                RIGHT_ROTATE(w) //PRZYPADEK 3
-                w = x.p.right //PRZYPADEK 3
-            if x != T.nil
-                    w.color = x.p.color //PRZYPADEK 4
-                    x.p.color = BLACK //PRZYPADEK 4
-                    x.right.color = BLACK //PRZYPADEK 4
-            LEFT_ROTATE(x.p) //PRZYPADEK 4
-            x = T.root //PRZYPADEK 4
+            if w.right.color == BLACK
+                w.left.color = BLACK  // Case 3
+                w.color = RED         // Case 3
+                RIGHT_ROTATE(w)
+                w = x.p.right
+            w.color = x.p.color       // Case 4
+            x.p.color = BLACK
+            w.right.color = BLACK
+            LEFT_ROTATE(x.p)
+            x = T.root
     else
-        (to samo co po pierwszym if z zamienionymi wskaźnikami right i left)
+        (same as above, with "right" and "left" swapped)
 x.color = BLACK
 ```
-## WYSZUKIWANIE:
 
-```
-Operacje wyszukiwania w drzewie binarnym rozpoczynamy od korzenia,
-kolejno porównując klucze i zagłębiając się w odpowiednie poddrzewo dopóki nie
-trafimy na szukany klucz lub wartownik (T.nil).
-```
-```
-k → szukany klucz
+---
 
-TREE_SEARCH(k)
+## Searching
+
+The search operation starts from the root, comparing keys and descending into left or right subtrees until either the key is found or a sentinel (`T.nil`) is reached.
+
+### TREE_SEARCH(k)
+```
 x = T.root
-while x!=T.nil i x.key != k
-    if k<x.key
-        x=x.left
+while x != T.nil and x.key != k
+    if k < x.key
+        x = x.left
     else
-        x=x.right
+        x = x.right
 if x == T.nil
     return NULL
 else
     return x
 ```
 
-
-```
-Algorytm zwraca wartość NULL jeśli szukany element nie istnieje.
-```
+If the element does not exist, the algorithm returns `NULL`.
